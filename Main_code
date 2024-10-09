@@ -1,0 +1,27 @@
+int waterLevelPin = A0; // Water level sensor connected to analog pin A0
+int relayPin = 7;       // Relay connected to digital pin 7
+int lowThreshold = 200; // Minimum water level threshold
+int highThreshold = 800; // Maximum water level threshold
+
+void setup() {
+  pinMode(relayPin, OUTPUT);
+  digitalWrite(relayPin, LOW); // Turn off pump initially
+  Serial.begin(9600);
+}
+
+void loop() {
+  int waterLevel = analogRead(waterLevelPin); // Read water level from sensor
+
+  Serial.print("Water Level: ");
+  Serial.println(waterLevel);
+
+  if (waterLevel < lowThreshold) {
+    digitalWrite(relayPin, HIGH); // Turn on the pump
+    Serial.println("Pump ON");
+  } else if (waterLevel > highThreshold) {
+    digitalWrite(relayPin, LOW);  // Turn off the pump
+    Serial.println("Pump OFF");
+  }
+
+  delay(1000); // Delay 1 second between readings
+}
